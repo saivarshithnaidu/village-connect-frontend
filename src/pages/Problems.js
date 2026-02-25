@@ -5,7 +5,7 @@ import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 import { FiThumbsUp, FiPlus } from 'react-icons/fi';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || 'https://village-connect-backend-1wow.onrender.com/api';
 
 const Problems = () => {
   const [problems, setProblems] = useState([]);

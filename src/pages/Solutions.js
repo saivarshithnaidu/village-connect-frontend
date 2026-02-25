@@ -5,7 +5,7 @@ import { FiThumbsUp } from 'react-icons/fi';
 import { useContext } from 'react';
 import AuthContext from '../context/AuthContext';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = process.env.REACT_APP_API_URL || 'https://village-connect-backend-1wow.onrender.com/api';
 
 const Solutions = () => {
   const [solutions, setSolutions] = useState([]);
