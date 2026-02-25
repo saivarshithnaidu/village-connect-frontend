@@ -5,7 +5,7 @@ import AuthContext from '../context/AuthContext';
 import { FiAlertCircle, FiEye } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://village-connect-backend-1wow.onrender.com/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const VolunteerDashboard = () => {
   const [problems, setProblems] = useState([]);

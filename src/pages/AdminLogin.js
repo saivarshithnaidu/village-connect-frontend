@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://village-connect-backend-1wow.onrender.com/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
