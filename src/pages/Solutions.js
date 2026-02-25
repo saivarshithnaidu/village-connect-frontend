@@ -14,6 +14,7 @@ const Solutions = () => {
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
+    fetchSolutions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
