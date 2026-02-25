@@ -5,7 +5,7 @@ import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 import { FiThumbsUp, FiArrowLeft } from 'react-icons/fi';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://village-connect-backend-1wow.onrender.com/api';
 
 const ProblemDetail = () => {
   const { id } = useParams();
@@ -136,7 +136,7 @@ const ProblemDetail = () => {
       {user && user.role !== 'villager' && (
         <div className="card" style={{ marginTop: '30px' }}>
           <h2>Proposed Solutions ({solutions.length})</h2>
-          
+
           {user && (
             <form onSubmit={handleSubmitSolution} style={{ marginTop: '20px', marginBottom: '30px', padding: '20px', background: '#f9f9f9', borderRadius: '8px' }}>
               <h3>Propose a Solution</h3>

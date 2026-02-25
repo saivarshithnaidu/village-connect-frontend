@@ -4,7 +4,7 @@ import axios from 'axios';
 import AuthContext from '../context/AuthContext';
 import { FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'https://village-connect-backend-1wow.onrender.com/api';
 
 const VillagerDashboard = () => {
   const [problems, setProblems] = useState([]);
@@ -100,11 +100,11 @@ const VillagerDashboard = () => {
                   </div>
                 </div>
               </div>
-              
+
               <p style={{ color: '#666', marginBottom: '15px' }}>{problem.description}</p>
-              
+
               <div style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
-                <strong>Reported by:</strong> {problem.reportedBy?.name || 'Unknown'} | 
+                <strong>Reported by:</strong> {problem.reportedBy?.name || 'Unknown'} |
                 <strong> Assigned on:</strong> {new Date(problem.updatedAt).toLocaleDateString()}
               </div>
 
