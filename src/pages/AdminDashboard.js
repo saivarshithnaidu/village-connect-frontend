@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FiUsers, FiAlertCircle, FiZap, FiMessageSquare } from 'react-icons/fi';
+import { FiUsers, FiAlertCircle, FiZap } from 'react-icons/fi';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
@@ -170,81 +170,81 @@ const AdminDashboard = () => {
             })
             .slice(0, 15)
             .map(problem => (
-            <div key={problem._id} style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid #eee' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', alignItems: 'flex-start' }}>
-                <div style={{ flex: 1 }}>
-                  <h3 style={{ margin: 0, marginBottom: '5px' }}>{problem.title}</h3>
-                  <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginBottom: '5px' }}>
-                    {!problem.isVerified && (
-                      <span className="badge badge-warning">Unverified</span>
-                    )}
+              <div key={problem._id} style={{ marginBottom: '20px', paddingBottom: '20px', borderBottom: '1px solid #eee' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', alignItems: 'flex-start' }}>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{ margin: 0, marginBottom: '5px' }}>{problem.title}</h3>
+                    <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap', marginBottom: '5px' }}>
+                      {!problem.isVerified && (
+                        <span className="badge badge-warning">Unverified</span>
+                      )}
+                      {problem.isCompletedByVillager && !problem.isVerified && (
+                        <span className="badge badge-info">Completed by Villager - Needs Verification</span>
+                      )}
+                      {problem.assignedTo && (
+                        <span className="badge badge-success">Assigned to {problem.assignedTo?.name}</span>
+                      )}
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
                     {problem.isCompletedByVillager && !problem.isVerified && (
-                      <span className="badge badge-info">Completed by Villager - Needs Verification</span>
+                      <button
+                        onClick={() => verifyCompletion(problem._id)}
+                        className="btn btn-success"
+                        style={{ padding: '5px 15px', fontSize: '14px' }}
+                      >
+                        Verify Completion
+                      </button>
                     )}
-                    {problem.assignedTo && (
-                      <span className="badge badge-success">Assigned to {problem.assignedTo?.name}</span>
+                    {!problem.isVerified && !problem.isCompletedByVillager && (
+                      <button
+                        onClick={() => verifyProblem(problem._id)}
+                        className="btn btn-primary"
+                        style={{ padding: '5px 15px', fontSize: '14px' }}
+                      >
+                        Verify
+                      </button>
                     )}
+                    {!problem.assignedTo && problem.isVerified && (
+                      <select
+                        onChange={(e) => {
+                          if (e.target.value) {
+                            assignProblem(problem._id, e.target.value);
+                            e.target.value = '';
+                          }
+                        }}
+                        style={{ padding: '5px' }}
+                        defaultValue=""
+                      >
+                        <option value="">Assign to Villager</option>
+                        {users.filter(u => u.role === 'villager').map(villager => (
+                          <option key={villager._id} value={villager._id}>{villager.name}</option>
+                        ))}
+                      </select>
+                    )}
+                    <select
+                      value={problem.status}
+                      onChange={(e) => updateProblemStatus(problem._id, e.target.value)}
+                      style={{ padding: '5px' }}
+                    >
+                      <option value="open">Open</option>
+                      <option value="in-progress">In Progress</option>
+                      <option value="resolved">Resolved</option>
+                      <option value="closed">Closed</option>
+                    </select>
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
-                  {problem.isCompletedByVillager && !problem.isVerified && (
-                    <button
-                      onClick={() => verifyCompletion(problem._id)}
-                      className="btn btn-success"
-                      style={{ padding: '5px 15px', fontSize: '14px' }}
-                    >
-                      Verify Completion
-                    </button>
-                  )}
-                  {!problem.isVerified && !problem.isCompletedByVillager && (
-                    <button
-                      onClick={() => verifyProblem(problem._id)}
-                      className="btn btn-primary"
-                      style={{ padding: '5px 15px', fontSize: '14px' }}
-                    >
-                      Verify
-                    </button>
-                  )}
-                  {!problem.assignedTo && problem.isVerified && (
-                    <select
-                      onChange={(e) => {
-                        if (e.target.value) {
-                          assignProblem(problem._id, e.target.value);
-                          e.target.value = '';
-                        }
-                      }}
-                      style={{ padding: '5px' }}
-                      defaultValue=""
-                    >
-                      <option value="">Assign to Villager</option>
-                      {users.filter(u => u.role === 'villager').map(villager => (
-                        <option key={villager._id} value={villager._id}>{villager.name}</option>
-                      ))}
-                    </select>
-                  )}
-                  <select
-                    value={problem.status}
-                    onChange={(e) => updateProblemStatus(problem._id, e.target.value)}
-                    style={{ padding: '5px' }}
-                  >
-                    <option value="open">Open</option>
-                    <option value="in-progress">In Progress</option>
-                    <option value="resolved">Resolved</option>
-                    <option value="closed">Closed</option>
-                  </select>
+                <p style={{ color: '#666', marginBottom: '10px' }}>{problem.description.substring(0, 100)}...</p>
+                {problem.completionMessage && (
+                  <div style={{ padding: '10px', background: '#e8f5e9', borderRadius: '5px', marginBottom: '10px' }}>
+                    <strong>Completion Message:</strong> {problem.completionMessage}
+                  </div>
+                )}
+                <div style={{ fontSize: '14px', color: '#666' }}>
+                  By {problem.reportedBy?.name} | {problem.category}
                 </div>
               </div>
-              <p style={{ color: '#666', marginBottom: '10px' }}>{problem.description.substring(0, 100)}...</p>
-              {problem.completionMessage && (
-                <div style={{ padding: '10px', background: '#e8f5e9', borderRadius: '5px', marginBottom: '10px' }}>
-                  <strong>Completion Message:</strong> {problem.completionMessage}
-                </div>
-              )}
-              <div style={{ fontSize: '14px', color: '#666' }}>
-                By {problem.reportedBy?.name} | {problem.category}
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
 

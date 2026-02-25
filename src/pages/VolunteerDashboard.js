@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AuthContext from '../context/AuthContext';
-import { FiAlertCircle, FiCheckCircle, FiEye } from 'react-icons/fi';
+import { FiAlertCircle, FiEye } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
@@ -91,15 +91,15 @@ const VolunteerDashboard = () => {
                   </div>
                 </div>
               </div>
-              
+
               <p style={{ color: '#666', marginBottom: '15px' }}>
                 {problem.description.length > 200
                   ? `${problem.description.substring(0, 200)}...`
                   : problem.description}
               </p>
-              
+
               <div style={{ fontSize: '14px', color: '#666', marginBottom: '15px' }}>
-                <strong>Reported by:</strong> {problem.reportedBy?.name || 'Unknown'} | 
+                <strong>Reported by:</strong> {problem.reportedBy?.name || 'Unknown'} |
                 <strong> Posted:</strong> {new Date(problem.createdAt).toLocaleDateString()}
               </div>
 
